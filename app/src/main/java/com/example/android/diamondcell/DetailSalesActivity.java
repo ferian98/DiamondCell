@@ -24,8 +24,7 @@ public class DetailSalesActivity extends AppCompatActivity {
     private Button btnKembali;
     private ImageView imgSales;
     public static final String SALES_EXTRA = "SalesInstans";
-    private Sales mSales;
-    // private Sales sales;
+    private Sales mSales;;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

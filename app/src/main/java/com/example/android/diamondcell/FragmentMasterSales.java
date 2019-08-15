@@ -9,27 +9,29 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MenuDataMasterFragment.OnFragmentInteractionListener} interface
+ * {@link FragmentMasterSales.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MenuDataMasterFragment#newInstance} factory method to
+ * Use the {@link FragmentMasterSales#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenuDataMasterFragment extends Fragment {
-    private static final String ARG_USER_ID = "ID";
-    private static final String ARG_HAK_AKSES = "HAK_AKSES";
+public class FragmentMasterSales extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mUserID;
-    private String mHakAkses;
+    private String mParam1;
+    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    public MenuDataMasterFragment() {
+    public FragmentMasterSales() {
         // Required empty public constructor
     }
 
@@ -37,16 +39,16 @@ public class MenuDataMasterFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 ID dari user yang sedang login.
-     * @param param2 Hak akses user yang sedang login.
-     * @return A new instance of fragment MenuDataMasterFragment.
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment FragmentMasterSales.
      */
     // TODO: Rename and change types and number of parameters
-    public static MenuDataMasterFragment newInstance(String param1, String param2) {
-        MenuDataMasterFragment fragment = new MenuDataMasterFragment();
+    public static FragmentMasterSales newInstance(String param1, String param2) {
+        FragmentMasterSales fragment = new FragmentMasterSales();
         Bundle args = new Bundle();
-        args.putString(ARG_USER_ID, param1);
-        args.putString(ARG_HAK_AKSES, param2);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,46 +57,22 @@ public class MenuDataMasterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mUserID = getArguments().getString(ARG_USER_ID);
-            mHakAkses = getArguments().getString(ARG_HAK_AKSES);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.menu_data_master, container, false);
-        Button buttonSales = view.findViewById(R.id.btn_sales);
-        Button buttonPelanggan = view.findViewById(R.id.btn_pelanggan);
-        Button buttonSupplier = view.findViewById(R.id.btn_supplier);
-
-        buttonSales.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed(FragmentMasterSales.newInstance("", ""));
-            }
-        });
-
-        buttonPelanggan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed(FragmentMasterPelanggan.newInstance("", ""));
-            }
-        });
-
-        buttonSupplier.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed(FragmentMasterSupplier.newInstance("", ""));
-            }
-        });
+        View view = inflater.inflate(R.layout.fragment_master_sales, container, false);
         return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Fragment fragment) {
+    public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onDataMasterFragmentInteraction(fragment);
+            mListener.onFragmentSalesInteraction(uri);
         }
     }
 
@@ -127,6 +105,6 @@ public class MenuDataMasterFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onDataMasterFragmentInteraction(Fragment fragment);
+        void onFragmentSalesInteraction(Uri uri);
     }
 }

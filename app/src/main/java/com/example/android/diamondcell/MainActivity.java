@@ -21,20 +21,40 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.Menu;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         DashboardFragment.OnFragmentInteractionListener,
-        MenuDataMasterFragment.OnFragmentInteractionListener{
+        MenuDataMasterFragment.OnFragmentInteractionListener,
+        FragmentMasterSupplier.OnFragmentInteractionListener,
+        FragmentMasterSales.OnFragmentInteractionListener,
+        FragmentMasterPelanggan.OnFragmentInteractionListener {
 
+    //Tag yang akan digunakan untuk memanggil ulang fragment
+    //Belum diimplementasikan
     private final String FRAGMENT_DASHBOARD_TAG = "DASHBOARD";
-    private final String FRAGMENT_DATAMASTER_TAG = "DATAMASTER";
+    private final String FRAGMENT_DATAMASTER_TAG = "DATA_MASTER";
+    private final String FRAGMENT_MASTER_SUPPLIER = "MASTER_SUPPLIER";
+    private final String FRAGMENT_MASTER_SALES = "MASTER_SALES";
+    private final String FRAGMENT_MASTER_PELANGGAN = "MASTER_PELANGGAN";
+
+    private Fragment mDashboardFragment, mMenuDataMasterFragment, mMasterPelangganFragment;
+    private Fragment mMasterSalesFragment, mMasterSupplierFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+      
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mDashboardFragment = DashboardFragment.newInstance("", "");
+        mMenuDataMasterFragment = MenuDataMasterFragment.newInstance("", "");
+        mMasterPelangganFragment = FragmentMasterPelanggan.newInstance("", "");
+        mMasterSalesFragment = FragmentMasterSales.newInstance("", "");
+        mMasterSupplierFragment = FragmentMasterSupplier.newInstance("", "");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -44,10 +64,8 @@ public class MainActivity extends AppCompatActivity implements
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        DashboardFragment fragmentAwal = DashboardFragment.newInstance("", "");
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragmentAwal, FRAGMENT_DASHBOARD_TAG)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .add(R.id.fragment_container, mDashboardFragment)
                 .commit();
     }
 
@@ -89,26 +107,11 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        //TODO: Perbaiki transisi fragment agar hanya mengambil fragment yang ada di back stack jika ada
         if (id == R.id.nav_home) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_DASHBOARD_TAG);
-            if(fragment != null) {
-                transaction.replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
-            }
+            replaceFramgent(mDashboardFragment);
         } else if (id == R.id.nav_data_master) {
-            Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_DATAMASTER_TAG);
-            if (fragment != null) {
-                transaction.replace(R.id.fragment_container, fragment);
-            } else {
-                MenuDataMasterFragment fragmentDataMaster = MenuDataMasterFragment.newInstance("", "");
-                transaction.replace(R.id.fragment_container, fragmentDataMaster, FRAGMENT_DATAMASTER_TAG);
-            }
-            transaction.addToBackStack(null);
-            transaction.commit();
+            replaceFramgent(mMenuDataMasterFragment);
         } else if (id == R.id.nav_pembelian) {
             //TODO:Pindah ke fragment pembelian
         } else if (id == R.id.nav_penjualan) {
@@ -116,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.nav_transaksi_lain) {
             //TODO:Pindah ke fragment transaksi lain
         } else if (id == R.id.nav_utility) {
-            //TODO:Pidnah ke fragment utility
+            //TODO:Pindah ke fragment utility
         } else {
             //TODO:Pindah ke activity login
         }
@@ -127,12 +130,105 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onDataMasterFragmentInteraction(Uri uri) {
-        //TODO:Implement Fragment interaction
+    public void onDataMasterFragmentInteraction(Fragment fragment) {
+        replaceFramgent(fragment);
     }
 
     @Override
     public void onDashboardFragmentInteraction(Uri uri) {
         //TODO:Implement Fragment interaction
+    }
+
+    @Override
+    public void onFragmentPelangganInteraction(Uri uri) {
+        //TODO: Implement Fragment Interaction
+    }
+
+    @Override
+    public void onFragmentSalesInteraction(Uri uri) {
+        //TODO: Implement Fragment Interaction
+    }
+
+    @Override
+    public void onFragmentSupplierInteraction(Uri uri) {
+        //TODO: Implement Fragment Interaction
+    }
+
+    public void replaceFramgent(Fragment fragmentClass) {
+        //Meng-handle pergantian fragment pada MainActivity
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        //Menggantikan fragment yang ada di dalam frame layout dengan fragment yang sesuai
+        if (fragmentClass instanceof DashboardFragment)
+            transaction.replace(R.id.fragment_container, mDashboardFragment);
+        else if (fragmentClass instanceof MenuDataMasterFragment)
+            transaction.replace(R.id.fragment_container, mMenuDataMasterFragment);
+        else if (fragmentClass instanceof FragmentMasterSupplier)
+            transaction.replace(R.id.fragment_container, mMasterSupplierFragment);
+        else if (fragmentClass instanceof FragmentMasterPelanggan)
+            transaction.replace(R.id.fragment_container, mMasterPelangganFragment);
+        else if (fragmentClass instanceof  FragmentMasterSales)
+            transaction.replace(R.id.fragment_container, mMasterSalesFragment);
+
+        //Menambahkan transaksi ke backstack hanya jika ada perpindahan fragment
+        if (!fragmentClass.getClass().equals(oldFragment.getClass()))
+            transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    //TODO: Cari cara lebih efisien untuk menampilkan fragment kalau ada
+    //TODO: Ubah item navigation drawer yang di-highlight jika terjadi perpindahan fragment
+    //TODO: Atasi masalah fragment yang menumpuk-numpuk
+    //TODO: Ganti kembali metode replace ke metode ini ketika masalah sudah diatasi
+    public void displayFragment(Fragment fragment) {
+        //Metode untuk menampilkan dan menyembunyikan fragment lain
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+        //Menyembunyikan fragment yang berada di fragment container sekarang ini
+        if (currentFragment instanceof DashboardFragment)
+            transaction.hide(mDashboardFragment);
+        else if (currentFragment instanceof MenuDataMasterFragment)
+            transaction.hide(mMenuDataMasterFragment);
+        else if (currentFragment instanceof FragmentMasterSales)
+            transaction.hide(mMasterSalesFragment);
+        else if (currentFragment instanceof FragmentMasterPelanggan)
+            transaction.hide(mMasterPelangganFragment);
+        else if (currentFragment instanceof  FragmentMasterSupplier)
+            transaction.hide(mMasterSupplierFragment);
+
+        //Menampilkan fragment yang diinginkan jika sudah ada kalau tidak tambahkan fragment ke fragment manager
+        if (fragment instanceof DashboardFragment) {
+            if (mDashboardFragment.isAdded())
+                transaction.show(mDashboardFragment);
+            else
+                transaction.add(R.id.fragment_container, mDashboardFragment);
+        } else if (fragment instanceof MenuDataMasterFragment) {
+            if(mMenuDataMasterFragment.isAdded())
+                transaction.show(fragment);
+            else
+                transaction.add(R.id.fragment_container, mMenuDataMasterFragment);
+        } else if (fragment instanceof FragmentMasterSupplier) {
+            if (mMasterSupplierFragment.isAdded())
+                transaction.show(mMasterSupplierFragment);
+            else
+                transaction.add(R.id.fragment_container, mMasterSupplierFragment);
+        } else if (fragment instanceof FragmentMasterPelanggan) {
+            if (mMasterPelangganFragment.isAdded())
+                transaction.show(mMasterPelangganFragment);
+            else
+                transaction.add(R.id.fragment_container, mMasterPelangganFragment);
+        } else if (fragment instanceof FragmentMasterSales) {
+            if (mMasterSalesFragment.isAdded())
+                transaction.show(mMasterSalesFragment);
+            else
+                transaction.add(R.id.fragment_container, mMasterSalesFragment);
+        }
+
+        //Tambah ke transaksi ke backstack hanya jika terjadi perpindahan fragment
+        if(!currentFragment.getClass().equals(fragment.getClass()))
+            transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

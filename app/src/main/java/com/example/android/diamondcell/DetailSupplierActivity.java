@@ -17,7 +17,7 @@ public class DetailSupplierActivity extends AppCompatActivity {
     private TextView tvKode, tvNama, tvAlamat, tvTelp, tvHp, tvEmail, tvKontak, tvStatus;
     private ImageButton btnCallTelp, btnCallHp, btnEmail;
     private Button btnKembali;
-    public static final String SUPPLIER_EXTRA = "";
+    public static final String SUPPLIER_EXTRA = "supplier_instans";
 
     private Supplier supplier;
 

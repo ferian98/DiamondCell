@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".pelanggan_item_input"></activity>
+        <activity android:name=".sales_item_input" />
+        <activity android:name=".supplier_item_input" />
         <activity android:name=".DetailPelangganActivity"></activity>
         <activity android:name=".DetailSalesActivity"></activity>
         <activity android:name=".DetailSupplierActivity"></activity>
