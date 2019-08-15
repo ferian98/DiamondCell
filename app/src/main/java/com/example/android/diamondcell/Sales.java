@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,7 +23,28 @@ public class Sales implements Parcelable
     private String mEmail;
     private boolean mStatusAktif;
     private String mFoto;
+    private ArrayList<KeyValuePair> mPasanganKolomNilai;
+    private final String NAMATABEL="tbSales";
+    private void buatParameterTabelSales(){
+        mPasanganKolomNilai= new ArrayList<>();
+        mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
+        mPasanganKolomNilai.add(new KeyValuePair("tgl_masuk",formatDateToMysqlDate(mTglMasuk)));
+        mPasanganKolomNilai.add(new KeyValuePair("nama",mNama));
+        mPasanganKolomNilai.add(new KeyValuePair("alamat",mAlamat));
+        mPasanganKolomNilai.add(new KeyValuePair("telp",mTelp));
+        mPasanganKolomNilai.add(new KeyValuePair("kode_jabatan",mKodeJabatan));
+        mPasanganKolomNilai.add(new KeyValuePair("jenis_kelamin",getmJenisKelaminAsString()));
+        mPasanganKolomNilai.add(new KeyValuePair("agama",getmAgamaAsString()));
+        mPasanganKolomNilai.add(new KeyValuePair("tgl_lahir",formatDateToMysqlDate(mTanggalLahir)));
+        mPasanganKolomNilai.add(new KeyValuePair("email",mEmail));
+        mPasanganKolomNilai.add(new KeyValuePair("status",String.valueOf(mStatusAktif)));
+        mPasanganKolomNilai.add(new KeyValuePair("foto",String.valueOf(mFoto)));
 
+    }
+    private String formatDateToMysqlDate(Date date){
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd",Locale.US);
+        return simpleDateFormat.format(date);
+    }
     protected Sales(Parcel in) {
         mKode = in.readString();
         mTglMasuk= new Date(in.readLong());
@@ -150,6 +172,7 @@ public class Sales implements Parcelable
         this.mEmail = mEmail;
         this.mStatusAktif = mStatusAktif;
         this.mFoto = mFoto;
+        buatParameterTabelSales();
     }
 
     public String getmKode() {
@@ -299,12 +322,25 @@ public class Sales implements Parcelable
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
         return dateFormat.format(mTglMasuk);
     }
+
+
+
     public Jabatan getJabatan(){
         //Todo: Definisikan Proses Kueri Untuk Mendapatkan Jabatan Berdasarkan Kode Jabatan
         return new Jabatan("mKode","namaJabatan",2);
     }
 
-    public void save(){
+    public void save(final UpdateOnUIThread<Sales> metodeUISetelahSave){
+        final Sales sales=this;
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.save(NAMATABEL, mPasanganKolomNilai, new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                if (response){
+                    metodeUISetelahSave.updateOnUIThread(sales);
+                }
+            }
+        });
         //Todo: Definisikan Proses Save
     }
 
@@ -312,8 +348,21 @@ public class Sales implements Parcelable
         //Todo: Definisikan Proses Update
     }
 
-    public void fetch(){
+    public void fetch(final UpdateOnUIThread<Sales> metodeUISetelahFetch){
         //Todo: Definisikan Proses Load Data
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.fetchAll(NAMATABEL, new DatabaseClass.AfterGetResponseListener<Sales>() {
+            @Override
+            public Sales afterGetResponse(String responseJSON) {
+                //Todo: Definisikan Proses Parsing JSON;
+                return null;
+            }
+
+            @Override
+            public void updateUIThread(Sales response) {
+                metodeUISetelahFetch.updateOnUIThread(response);
+            }
+        });
     }
 
     public void delete(){

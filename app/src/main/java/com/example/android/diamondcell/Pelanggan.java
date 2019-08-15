@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -17,12 +18,29 @@ public class Pelanggan implements Parcelable {
     private String mEmail;
     private boolean mStatusAktif;
     private String mFoto;
-
+    private ArrayList<KeyValuePair> mPasanganKolomNilai;
+    private final String NAMATABEL="tbPelanggan";
     public Pelanggan(String mKode) {
         this.mKode = mKode;
         //Todo: Dapatkan data pelanggan dari database berdasarkan kode
     }
+    private void buatParameterTabelPelanggan(){
+        mPasanganKolomNilai= new ArrayList<>();
+        mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
+        mPasanganKolomNilai.add(new KeyValuePair("tgl_masuk",formatDateToMysqlDate(mTglMasuk)));
+        mPasanganKolomNilai.add(new KeyValuePair("nama",mNama));
+        mPasanganKolomNilai.add(new KeyValuePair("alamat",mAlamat));
+        mPasanganKolomNilai.add(new KeyValuePair("telp",mTelp));
+        mPasanganKolomNilai.add(new KeyValuePair("handphone",mHandphone));;
+        mPasanganKolomNilai.add(new KeyValuePair("email",mEmail));
+        mPasanganKolomNilai.add(new KeyValuePair("status",String.valueOf(mStatusAktif)));
+        mPasanganKolomNilai.add(new KeyValuePair("foto",String.valueOf(mFoto)));
 
+    }
+    private String formatDateToMysqlDate(Date date){
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd",Locale.US);
+        return simpleDateFormat.format(date);
+    }
     public Pelanggan(String mKode, Date mTglMasuk, String mNama, String mAlamat, String mTelp, String mHandphone, String mEmail, boolean mStatusAktif, String mFoto) {
         this.mKode = mKode;
         this.mTglMasuk = mTglMasuk;
@@ -33,6 +51,7 @@ public class Pelanggan implements Parcelable {
         this.mEmail = mEmail;
         this.mStatusAktif = mStatusAktif;
         this.mFoto = mFoto;
+        buatParameterTabelPelanggan();
     }
 
     protected Pelanggan(Parcel in) {

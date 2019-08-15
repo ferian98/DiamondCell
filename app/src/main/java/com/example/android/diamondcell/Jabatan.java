@@ -3,10 +3,19 @@ package com.example.android.diamondcell;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Jabatan implements Parcelable {
     private String mKode;
     private String mNama;
     private int mHakAkses;
+    private ArrayList<KeyValuePair> mPasanganKolomNilai;
+    private void buatParameterTabelJabatan(){
+        mPasanganKolomNilai= new ArrayList<>();
+        mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
+        mPasanganKolomNilai.add(new KeyValuePair("nama",mNama));
+        mPasanganKolomNilai.add(new KeyValuePair("hak_akses",String.valueOf(mHakAkses)));
+    }
 
     public Jabatan(String mKode) {
         this.mKode = mKode;
@@ -23,6 +32,7 @@ public class Jabatan implements Parcelable {
         mKode = in.readString();
         mNama = in.readString();
         mHakAkses = in.readInt();
+        buatParameterTabelJabatan();
     }
 
     public static final Creator<Jabatan> CREATOR = new Creator<Jabatan>() {
@@ -74,6 +84,7 @@ public class Jabatan implements Parcelable {
     }
 
     public void fetch(){
+
         //Todo: Definisikan Proses Load Data
     }
 
