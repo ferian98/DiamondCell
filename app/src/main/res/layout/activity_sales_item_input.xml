@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".sales_item_input">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:id="@+id/txtKode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KODE"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edtKode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="KODE"
+            android:layout_below="@+id/txtKode"/>
+
+        <TextView
+            android:id="@+id/txtNama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NAMA"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/edtKode"/>
+
+        <EditText
+            android:id="@+id/edtNama"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="NAMA"
+            android:layout_below="@+id/txtNama"/>
+
+
+        <Button
+            android:id="@+id/btnFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:text="PILIH FOTO"
+            android:layout_below="@+id/txtNama"
+            android:layout_toRightOf="@+id/edtNama"/>
+
+        <TextView
+            android:id="@+id/txtAlamat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ALAMAT"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/edtNama"/>
+
+        <EditText
+            android:id="@+id/edtAlamat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="ALAMAT"
+            android:layout_below="@+id/txtAlamat"/>
+
+        <TextView
+            android:id="@+id/txtHp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HP"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/edtAlamat"/>
+
+        <EditText
+            android:id="@+id/edtHp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:hint="NOMOR HP"
+            android:maxLength="13"
+            android:layout_below="@+id/txtHp"/>
+
+        <TextView
+            android:id="@+id/txtJabatan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JABATAN"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/edtHp"/>
+
+        <EditText
+            android:id="@+id/edtJabatan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="JABATAN"
+            android:layout_below="@+id/txtJabatan"/>
+
+        <TextView
+            android:id="@+id/txtTempatLahir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TEMPAT, TANGGAL LAHIR"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/edtJabatan"/>
+
+        <EditText
+            android:id="@+id/edtTempatLahir"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:hint="TEMPAT LAHIR"
+            android:layout_below="@+id/txtTempatLahir"/>
+
+        <TextView
+            android:id="@+id/txtTanggalLahir"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textSize="18sp"
+            android:hint="TANGGAL LAHIR"
+            android:layout_below="@+id/edtTempatLahir"
+            android:paddingBottom="5dp"/>
+
+        <Button
+            android:id="@+id/btnDatePicker"
+            android:text="PILIH TANGGAL"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_below="@+id/txtTempatLahir"
+            android:layout_toRightOf="@+id/edtTempatLahir" />
+
+        <TextView
+            android:id="@+id/txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="EMAIL"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/txtTanggalLahir"/>
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="EMAIL"
+            android:layout_below="@+id/txtEmail"/>
+
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STATUS"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/edtEmail"/>
+
+        <Spinner
+            android:id="@+id/spnStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txtStatus"
+            android:layout_marginLeft="90dp"
+            android:layout_below="@+id/edtEmail"></Spinner>
+
+        <TextView
+            android:id="@+id/txtJenisKel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="JENIS KELAMIN"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/txtStatus"/>
+
+        <Spinner
+            android:id="@+id/spnJenisKel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txtJenisKel"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/txtStatus"></Spinner>
+
+        <TextView
+            android:id="@+id/txtAgama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AGAMA"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/txtJenisKel"/>
+
+        <Spinner
+            android:id="@+id/spnAgama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/txtJenisKel"
+            android:layout_marginLeft="22dp"
+            android:layout_below="@+id/txtJenisKel"></Spinner>
+
+        <Button
+            android:id="@+id/btnKembali"
+            android:text="KEMBALI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:drawableLeft="@drawable/ic_arrow"
+            android:layout_below="@+id/txtAgama"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"/>
+
+        <Button
+            android:id="@+id/btnSimpan"
+            android:text="SIMPAN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:drawableLeft="@drawable/icon_save"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+</ScrollView>
