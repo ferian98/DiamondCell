@@ -12,9 +12,6 @@
         <activity android:name=".pelanggan_item_input"></activity>
         <activity android:name=".sales_item_input" />
         <activity android:name=".supplier_item_input" />
-        <activity android:name=".DetailPelangganActivity"></activity>
-        <activity android:name=".DetailSalesActivity"></activity>
-        <activity android:name=".DetailSupplierActivity"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"

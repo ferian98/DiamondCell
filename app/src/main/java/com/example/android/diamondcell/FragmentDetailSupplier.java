@@ -1,7 +1,6 @@
 package com.example.android.diamondcell;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,10 +13,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-public class DetailSupplierActivity extends Fragment {
+public class FragmentDetailSupplier extends Fragment {
 
     private TextView tvKode, tvNama, tvAlamat, tvTelp, tvHp, tvEmail, tvKontak, tvStatus;
     private ImageButton btnCallTelp, btnCallHp, btnEmail;
@@ -29,7 +27,7 @@ public class DetailSupplierActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_detail_supplier, container, false);
+        return inflater.inflate(R.layout.fragment_detail_supplier, container, false);
     }
 
     @Override
@@ -148,7 +146,6 @@ public class DetailSupplierActivity extends Fragment {
            startActivity(i);
         }
     } // END METHOD
-
 
     /**
      * Metode untuk menutup fragment

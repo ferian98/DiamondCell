@@ -1,7 +1,6 @@
 package com.example.android.diamondcell;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,13 +14,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class DetailSalesActivity extends Fragment {
+public class FragmentDetailSales extends Fragment {
 
     private TextView tvKode, tvNama, tvAlamat, tvHp, tvJabatan, tvJenisKelamin, tvAgama,
             tvTempatLahir, tvTanggalLahir, tvEmail, tvStatus;
@@ -37,7 +35,7 @@ public class DetailSalesActivity extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_detail_sales,  container, false);
+        return inflater.inflate(R.layout.fragment_detail_sales,  container, false);
     }
 
     @Override

@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class FragmentPelangganActivity extends Fragment {
+public class FragmentDetailPelanggan extends Fragment {
 
     private TextView tvKode, tvNama, tvTglInput, tvAlamat, tvTelp, tvHp, tvEmail, tvStatus;
     private ImageButton btnCallTelp, btnCallHp, btnEmail;
