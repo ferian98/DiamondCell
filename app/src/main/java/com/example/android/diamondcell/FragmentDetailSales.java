@@ -4,57 +4,74 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class DetailSalesActivity extends AppCompatActivity {
+public class DetailSalesActivity extends Fragment {
 
     private TextView tvKode, tvNama, tvAlamat, tvHp, tvJabatan, tvJenisKelamin, tvAgama,
             tvTempatLahir, tvTanggalLahir, tvEmail, tvStatus;
     private ImageButton btnCallHp, btnEmail;
     private Button btnKembali;
     private ImageView imgSales;
-    public static final String SALES_EXTRA = "SalesInstans";
+    public static final String SALES_EXTRA = "sales_instans";
+
     private Sales mSales;;
 
+    private View v;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_sales);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_detail_sales,  container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        v = getView();
+
         // hindari landscape mode
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mSales = this.getIntent().getParcelableExtra(SALES_EXTRA);
+        // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // TODO: ambil objek sales
+        mSales = null; // this.getIntent().getParcelableExtra(SALES_EXTRA);
+
         definisikanWidget();
         isiNilaiDefaultWidget(mSales);
         tambahkanListenerKeWidget();
     } // END ONCREATE METHOD
 
-
     private void definisikanWidget(){
-        tvKode = findViewById(R.id.tv_kode_sales);
-        tvNama = findViewById(R.id.tv_nama_sales);
-        tvAlamat = findViewById(R.id.tv_alamat_sales);
-        tvHp = findViewById(R.id.tv_hp_sales);
-        tvJabatan = findViewById(R.id.tv_jabatan_sales);
-        tvJenisKelamin = findViewById(R.id.tv_kelamin_sales);
-        tvAgama = findViewById(R.id.tv_agama_sales);
-        tvTempatLahir = findViewById(R.id.tv_tempat_lahir_sales);
-        tvTanggalLahir = findViewById(R.id.tv_tanggal_lahir_sales);
-        tvEmail = findViewById(R.id.tv_email_sales);
-        tvStatus = findViewById(R.id.tv_status_sales);
-        btnCallHp = findViewById(R.id.btn_hp_call);
-        btnEmail = findViewById(R.id.btn_email);
-        btnKembali = findViewById(R.id.btn_kembali);
-        imgSales = findViewById(R.id.img_sales);
+        tvKode = v.findViewById(R.id.tv_kode_sales);
+        tvNama = v.findViewById(R.id.tv_nama_sales);
+        tvAlamat = v.findViewById(R.id.tv_alamat_sales);
+        tvHp = v.findViewById(R.id.tv_hp_sales);
+        tvJabatan = v.findViewById(R.id.tv_jabatan_sales);
+        tvJenisKelamin = v.findViewById(R.id.tv_kelamin_sales);
+        tvAgama = v.findViewById(R.id.tv_agama_sales);
+        tvTempatLahir = v.findViewById(R.id.tv_tempat_lahir_sales);
+        tvTanggalLahir = v.findViewById(R.id.tv_tanggal_lahir_sales);
+        tvEmail = v.findViewById(R.id.tv_email_sales);
+        tvStatus = v.findViewById(R.id.tv_status_sales);
+        btnCallHp = v.findViewById(R.id.btn_hp_call);
+        btnEmail = v.findViewById(R.id.btn_email);
+        btnKembali = v.findViewById(R.id.btn_kembali);
+        imgSales = v.findViewById(R.id.img_sales);
     }
     private void isiNilaiDefaultWidget(Sales sales){
         if (sales!=null){
@@ -116,11 +133,19 @@ public class DetailSalesActivity extends AppCompatActivity {
         btnKembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                tutupFragment();
             }
         });
     }
     private void tampilkanToast(String Message){
-        Toast.makeText(this,Message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),Message,Toast.LENGTH_LONG).show();
     }
+
+    /**
+     * Metode untuk menutup fragment
+     */
+    private void tutupFragment(){
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
+
 } // END CLASS

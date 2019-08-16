@@ -15,7 +15,9 @@ android:padding="8dp">
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:columnCount="4">
+        android:columnCount="4"
+        android:paddingBottom="64dp"
+        android:clipToPadding="false">
 
         <!-- Kode Supplier -->
         <TextView
