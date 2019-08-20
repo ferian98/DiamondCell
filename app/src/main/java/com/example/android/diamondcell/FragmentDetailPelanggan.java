@@ -1,22 +1,25 @@
 package com.example.android.diamondcell;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-public class DetailPelangganActivity extends AppCompatActivity {
+public class FragmentDetailPelanggan extends Fragment {
 
     private TextView tvKode, tvNama, tvTglInput, tvAlamat, tvTelp, tvHp, tvEmail, tvStatus;
     private ImageButton btnCallTelp, btnCallHp, btnEmail;
@@ -25,14 +28,25 @@ public class DetailPelangganActivity extends AppCompatActivity {
     public static final String PELANGGAN_EXTRA = "pelanggan_instans";
 
     private Pelanggan mPelanggan;
+    View v;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_detail_pelanggan, container, false);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_pelanggan);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        v = getView();
+
         // hindari landscape mode
-        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        mPelanggan=getIntent().getParcelableExtra(PELANGGAN_EXTRA);
+        // this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        // TODO: ambil objek pelanggan
+        mPelanggan = null; //getIntent().getParcelableExtra(PELANGGAN_EXTRA);
+        
         definisikanWidget();
         isiNilaiDefaultWidget(mPelanggan);
         tambahkanListenerKeWidget();
@@ -40,19 +54,19 @@ public class DetailPelangganActivity extends AppCompatActivity {
     }
 
     private void definisikanWidget(){
-        tvKode = findViewById(R.id.tv_kode_pelanggan);
-        tvNama = findViewById(R.id.tv_nama_pelanggan);
-        tvTglInput = findViewById(R.id.tv_tanggal_input_pelanggan);
-        tvAlamat = findViewById(R.id.tv_alamat_pelanggan);
-        tvTelp = findViewById(R.id.tv_telepon_pelanggan);
-        tvHp = findViewById(R.id.tv_hp_pelanggan);
-        tvEmail = findViewById(R.id.tv_email_pelanggan);
-        tvStatus = findViewById(R.id.tv_status_pelanggan);
-        imgPelanggan = findViewById(R.id.img_pelanggan);
-        btnCallTelp = findViewById(R.id.btn_telepon_call);
-        btnCallHp = findViewById(R.id.btn_hp_call);
-        btnEmail = findViewById(R.id.btn_email);
-        btnKembali = findViewById(R.id.btn_kembali);
+        tvKode = v.findViewById(R.id.tv_kode_pelanggan);
+        tvNama = v.findViewById(R.id.tv_nama_pelanggan);
+        tvTglInput = v.findViewById(R.id.tv_tanggal_input_pelanggan);
+        tvAlamat = v.findViewById(R.id.tv_alamat_pelanggan);
+        tvTelp = v.findViewById(R.id.tv_telepon_pelanggan);
+        tvHp = v.findViewById(R.id.tv_hp_pelanggan);
+        tvEmail = v.findViewById(R.id.tv_email_pelanggan);
+        tvStatus = v.findViewById(R.id.tv_status_pelanggan);
+        imgPelanggan = v.findViewById(R.id.img_pelanggan);
+        btnCallTelp = v.findViewById(R.id.btn_telepon_call);
+        btnCallHp = v.findViewById(R.id.btn_hp_call);
+        btnEmail = v.findViewById(R.id.btn_email);
+        btnKembali = v.findViewById(R.id.btn_kembali);
     }
 
     private void isiNilaiDefaultWidget(Pelanggan pelanggan){
@@ -119,11 +133,19 @@ public class DetailPelangganActivity extends AppCompatActivity {
         btnKembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                tutupFragment();
             }
         });
     }
     private void tampilkanToast(String Message){
-        Toast.makeText(this,Message,Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),Message,Toast.LENGTH_LONG).show();
     }
-}
+
+    /**
+     * Metode untuk menutup fragment
+     */
+    private void tutupFragment(){
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
+
+} // END CLASS
