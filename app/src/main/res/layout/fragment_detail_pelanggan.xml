@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailPelangganActivity"
+    tools:context=".FragmentDetailPelanggan"
     android:padding="8dp">
 
     <RelativeLayout
@@ -16,7 +16,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:columnCount="4">
+            android:columnCount="4"
+            android:paddingBottom="64dp"
+            android:clipToPadding="false">
 
             <!-- Kode Pelanggan -->
             <TextView
