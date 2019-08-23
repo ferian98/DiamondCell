@@ -1,5 +1,6 @@
 package com.example.android.diamondcell;
 
-public interface UpdateOnUIThread<T> {
+public interface UpdateOnUIThreadWrite<T> {
     public void updateOnUIThread(T objek);
+
 }

@@ -36,6 +36,27 @@ public class LoginActivity extends AppCompatActivity {
                     intent.putExtra(TAG_USERNAME, username);
                     intent.putExtra(TAG_HAK_AKSES, getHakAkses(username));
                     startActivity(intent);
+//                    Supplier supplier=new Supplier("12345","aaaa","aaaa","aaa","aaa",
+//                            "aaa","aaa",false);
+//                    supplier.delete(new UpdateOnUIThreadWrite<Supplier>() {
+//                        @Override
+//                        public void updateOnUIThread(Supplier objek) {
+//                            Toast.makeText(LoginActivity.this, objek.getNama()+" "+
+//                                    objek.getEmail(), Toast.LENGTH_SHORT).show(); }
+//                    });
+//                    Supplier.fetch(new UpdateOnUIThreadRead<Supplier>() {
+//                        @Override
+//                        public void updateOnUIThread(ArrayList<Supplier> objek) {
+//                            String teks = "";
+//                            for (Supplier suplier:objek) {
+//                                teks=teks+suplier.getKode()+"\n";
+//                                teks=teks+suplier.getNama()+"\n";
+//                                teks=teks+suplier.getAlamat()+"\n";
+//                                teks=teks+suplier.getStatusAsString()+"\n";
+//                            }
+//                            Toast.makeText(LoginActivity.this, teks, Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                 } else {
                     Toast.makeText(LoginActivity.this, "User tidak dikenal", Toast.LENGTH_SHORT).show();
                 }

@@ -2,26 +2,18 @@ package com.example.android.diamondcell;
 
 import android.net.Uri;
 import android.os.Bundle;
-
-
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
+import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.view.Menu;
-import android.widget.Toast;
-
-import java.util.ArrayList;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
@@ -160,9 +152,10 @@ public class MainActivity extends AppCompatActivity implements
         Fragment oldFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 
         //Menggantikan fragment yang ada di dalam frame layout dengan fragment yang sesuai
-        if (fragmentClass instanceof DashboardFragment)
+        if (fragmentClass instanceof DashboardFragment) {
+            mDashboardFragment = fragmentClass;
             transaction.replace(R.id.fragment_container, mDashboardFragment);
-        else if (fragmentClass instanceof MenuDataMasterFragment)
+        } else if (fragmentClass instanceof MenuDataMasterFragment)
             transaction.replace(R.id.fragment_container, mMenuDataMasterFragment);
         else if (fragmentClass instanceof FragmentMasterSupplier)
             transaction.replace(R.id.fragment_container, mMasterSupplierFragment);

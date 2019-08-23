@@ -10,22 +10,27 @@ public class Jabatan implements Parcelable {
     private String mNama;
     private int mHakAkses;
     private ArrayList<KeyValuePair> mPasanganKolomNilai;
+    public final static String NAMA_TABEL="tbjabatan";
+    private DatabaseClass<Jabatan> mDatabase;
     private void buatParameterTabelJabatan(){
         mPasanganKolomNilai= new ArrayList<>();
         mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
         mPasanganKolomNilai.add(new KeyValuePair("nama",mNama));
         mPasanganKolomNilai.add(new KeyValuePair("hak_akses",String.valueOf(mHakAkses)));
+        mDatabase=new DatabaseClass<>();
     }
 
     public Jabatan(String mKode) {
         this.mKode = mKode;
         //Todo: Dapatkan data jabatan berdasarkan kode dari database
+        buatParameterTabelJabatan();
     }
 
     public Jabatan(String mKode, String mNama, int mHakAkses) {
         this.mKode = mKode;
         this.mNama = mNama;
         this.mHakAkses = mHakAkses;
+        buatParameterTabelJabatan();
     }
 
     protected Jabatan(Parcel in) {
@@ -75,21 +80,57 @@ public class Jabatan implements Parcelable {
        //Todo: Tentukan Hak Akses CRUD Tabel
         return true;
     }
-    public void save(){
+    public void save(final UpdateOnUIThreadWrite<Jabatan> metodeUIAfterSave){
         //Todo: Definisikan Proses Save
+        final Jabatan jabatan=this;
+        mDatabase.save(NAMA_TABEL, mPasanganKolomNilai, new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUIAfterSave.updateOnUIThread(jabatan);
+            }
+        });
     }
 
-    public void update(){
+    public void update(final UpdateOnUIThreadWrite<Jabatan> metodeUIAfterUpdate){
         //Todo: Definisikan Proses Update
+        final Jabatan jabatan=this;
+        mDatabase.update(NAMA_TABEL, mPasanganKolomNilai, mPasanganKolomNilai.get(0).getmName() + "="
+                + mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUIAfterUpdate.updateOnUIThread(jabatan);
+            }
+        });
     }
 
-    public void fetch(){
-
+    public static void fetch(final UpdateOnUIThreadRead<Jabatan> metodeUIAfterFetch){
         //Todo: Definisikan Proses Load Data
+        DatabaseClass<Jabatan> databaseClass= new DatabaseClass<>();
+        databaseClass.fetchAll(NAMA_TABEL, new DatabaseClass.AfterGetResponseListenerRead<Jabatan>() {
+            @Override
+            public ArrayList<Jabatan> afterGetResponse(String responseJSON) {
+                //Todo: Parsing JSON Jabatan
+                return null;
+            }
+
+            @Override
+            public void updateUIThread(ArrayList<Jabatan> response) {
+                metodeUIAfterFetch.updateOnUIThread(response);
+            }
+        });
+
     }
 
-    public void delete(){
+    public void delete(final UpdateOnUIThreadWrite<Jabatan> metodeUIAfterDelete){
         //Todo: Definisikan Proses Delete
+        final Jabatan jabatan=this;
+        mDatabase.delete(NAMA_TABEL, mPasanganKolomNilai.get(0).getmName() + "="
+                + mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUIAfterDelete.updateOnUIThread(jabatan);
+            }
+        });
     }
 
     @Override

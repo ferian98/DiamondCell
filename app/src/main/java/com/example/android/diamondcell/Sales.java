@@ -24,7 +24,7 @@ public class Sales implements Parcelable
     private boolean mStatusAktif;
     private String mFoto;
     private ArrayList<KeyValuePair> mPasanganKolomNilai;
-    private final String NAMATABEL="tbSales";
+    private final static String NAMATABEL="tbSales";
     private void buatParameterTabelSales(){
         mPasanganKolomNilai= new ArrayList<>();
         mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
@@ -88,6 +88,7 @@ public class Sales implements Parcelable
         mEmail = in.readString();
         mStatusAktif = in.readByte() != 0;
         mFoto = in.readString();
+        buatParameterTabelSales();
     }
 
     public static final Creator<Sales> CREATOR = new Creator<Sales>() {
@@ -154,6 +155,7 @@ public class Sales implements Parcelable
     }
     public Sales(String mKode){
         this.mKode=mKode;
+        buatParameterTabelSales();
         //Todo: Dapatkan data dari database berdasarkan Kode Sales
     }
     public Sales(String mKode, Date mTglMasuk, String mNama, String mAlamat, String mTelp, String mKodeJabatan,
@@ -174,7 +176,9 @@ public class Sales implements Parcelable
         this.mFoto = mFoto;
         buatParameterTabelSales();
     }
-
+    private Sales getInstance(){
+        return this;
+    };
     public String getmKode() {
         return mKode;
     }
@@ -324,49 +328,62 @@ public class Sales implements Parcelable
     }
 
 
-
     public Jabatan getJabatan(){
         //Todo: Definisikan Proses Kueri Untuk Mendapatkan Jabatan Berdasarkan Kode Jabatan
         return new Jabatan("mKode","namaJabatan",2);
     }
 
-    public void save(final UpdateOnUIThread<Sales> metodeUISetelahSave){
-        final Sales sales=this;
+    public void save(final UpdateOnUIThreadWrite<Sales> metodeUISetelahSave){
         DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
         databaseClass.save(NAMATABEL, mPasanganKolomNilai, new DatabaseClass.AfterGetResponseListenerWrite() {
             @Override
             public void updateUIThread(Boolean response) {
                 if (response){
-                    metodeUISetelahSave.updateOnUIThread(sales);
+                    metodeUISetelahSave.updateOnUIThread(getInstance());
                 }
             }
         });
-        //Todo: Definisikan Proses Save
     }
 
-    public void update(){
-        //Todo: Definisikan Proses Update
+    public void update(final UpdateOnUIThreadWrite<Sales> metodeUISetelahUpdate){
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.update(NAMATABEL,mPasanganKolomNilai,mPasanganKolomNilai.get(0).getmName()+"="+
+                mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUISetelahUpdate.updateOnUIThread(getInstance());
+            }
+        });
+
     }
 
-    public void fetch(final UpdateOnUIThread<Sales> metodeUISetelahFetch){
+    public static void fetch(final UpdateOnUIThreadRead<Sales> metodeUISetelahFetch){
         //Todo: Definisikan Proses Load Data
         DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
-        databaseClass.fetchAll(NAMATABEL, new DatabaseClass.AfterGetResponseListener<Sales>() {
+        databaseClass.fetchAll(NAMATABEL, new DatabaseClass.AfterGetResponseListenerRead<Sales>() {
             @Override
-            public Sales afterGetResponse(String responseJSON) {
+            public ArrayList<Sales> afterGetResponse(String responseJSON) {
                 //Todo: Definisikan Proses Parsing JSON;
                 return null;
             }
 
             @Override
-            public void updateUIThread(Sales response) {
+            public void updateUIThread(ArrayList<Sales> response) {
                 metodeUISetelahFetch.updateOnUIThread(response);
             }
         });
     }
 
-    public void delete(){
+    public void delete(final UpdateOnUIThreadWrite<Sales> metodeUISetelahDelete){
         //Todo: Definisikan Proses Delete
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.delete(NAMATABEL,mPasanganKolomNilai.get(0).getmName()+"="+
+                mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUISetelahDelete.updateOnUIThread(getInstance());
+            }
+        });
     }
 
 

@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class KoneksiKeJaringan {
@@ -36,17 +35,20 @@ public class KoneksiKeJaringan {
         if (keyValuePairs.size()>0){
             for (KeyValuePair keyvaluepair: keyValuePairs) {
                 builderbase=builderbase.appendQueryParameter(keyvaluepair.getmName(),
-                        URLEncoder.encode(keyvaluepair.getmValue(),"UTF-8"));
+                        keyvaluepair.getmValue());
             }
+
+        }else {
+            Log.d(DEBUG_TAG, "The response is: size is 0" );
         }
         uri = builderbase.build();
         urladdress=uri.toString();
-
+        Log.d(DEBUG_TAG, "The address is: "+urladdress );
         //Buat Url Objek untuk memulai koneksi beserta keterangan tambahannya
         url = new URL(urladdress);
         connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(4000);
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("GET");
         connection.connect();
 
         //Dapatkan Respons
@@ -88,42 +90,50 @@ public class KoneksiKeJaringan {
         InputStream inputStream;
         String line;
         StringBuffer buffer;
-        Boolean result=false;
+        Boolean result = true;
 
         //Persiapkan String untuk urladress
         if (BaseAddress==null){
-            return false;
+            return null;
         }
         urladdress = BaseAddress;
         builderbase = Uri.parse(urladdress).buildUpon();
         if (keyValuePairs.size()>0){
             for (KeyValuePair keyvaluepair: keyValuePairs) {
                 builderbase=builderbase.appendQueryParameter(keyvaluepair.getmName(),
-                        URLEncoder.encode(keyvaluepair.getmValue(),"UTF-8"));
+                        keyvaluepair.getmValue());
             }
+
+        }else {
+            Log.d(DEBUG_TAG, "The response is: size is 0" );
         }
         uri = builderbase.build();
         urladdress=uri.toString();
-
+        Log.d(DEBUG_TAG, "The address is: "+urladdress );
         //Buat Url Objek untuk memulai koneksi beserta keterangan tambahannya
         url = new URL(urladdress);
         connection = (HttpURLConnection) url.openConnection();
         connection.setConnectTimeout(4000);
-        connection.setRequestMethod("POST");
+        connection.setRequestMethod("GET");
         connection.connect();
 
         //Dapatkan Respons
         responseCode = connection.getResponseCode();
         Log.d(DEBUG_TAG, "The response is: " + responseCode);
-        if (responseCode== HttpURLConnection.HTTP_ACCEPTED){
-            result=true;
+        inputStream=connection.getInputStream();
+        if (inputStream==null){
+            result=null;
         }
 
         //Tutup semua koneksi
         if (connection!=null){
             connection.disconnect();
         }
-        return result;
+        if (result==null){
+            return false;
+        }else {
+            return true;
+        }
     }
 
 
