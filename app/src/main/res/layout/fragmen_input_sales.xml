@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".sales_item_input">
+    android:fillViewport="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -44,7 +43,6 @@
             android:inputType="text"
             android:hint="NAMA"
             android:layout_below="@+id/txtNama"/>
-
 
         <Button
             android:id="@+id/btnFoto"
@@ -98,12 +96,10 @@
             android:textStyle="bold"
             android:layout_below="@+id/edtHp"/>
 
-        <EditText
-            android:id="@+id/edtJabatan"
+        <Spinner
+            android:id="@+id/spnJabatan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="JABATAN"
             android:layout_below="@+id/txtJabatan"/>
 
         <TextView
@@ -113,7 +109,7 @@
             android:text="TEMPAT, TANGGAL LAHIR"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_below="@+id/edtJabatan"/>
+            android:layout_below="@+id/spnJabatan"/>
 
         <EditText
             android:id="@+id/edtTempatLahir"
@@ -174,6 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txtStatus"
             android:layout_marginLeft="90dp"
+            android:entries="@array/spinner_status_item"
             android:layout_below="@+id/edtEmail"></Spinner>
 
         <TextView
@@ -187,6 +184,7 @@
 
         <Spinner
             android:id="@+id/spnJenisKel"
+            android:entries="@array/spinner_jenis_kelamin_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txtJenisKel"
@@ -204,6 +202,7 @@
 
         <Spinner
             android:id="@+id/spnAgama"
+            android:entries="@array/spinner_agama_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/txtJenisKel"
