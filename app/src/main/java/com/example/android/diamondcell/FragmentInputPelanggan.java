@@ -24,15 +24,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentInputPelanggan.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentInputPelanggan#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FragmentInputPelanggan extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -51,8 +42,6 @@ public class FragmentInputPelanggan extends Fragment {
 
     //Member Pelanggan (Defaultnya akan dibuat dari template fragment, hanya tipenya diubah)
     private Pelanggan mParam1;
-
-    private OnFragmentInteractionListener mListener;
 
     public FragmentInputPelanggan() {
         // Required empty public constructor
@@ -89,45 +78,6 @@ public class FragmentInputPelanggan extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_input_pelanggan, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 
     @Override
@@ -175,6 +125,7 @@ public class FragmentInputPelanggan extends Fragment {
         btnSimpan=view.findViewById(R.id.btnSimpan);
         btnKembali=view.findViewById(R.id.btnKembali);
     };
+
     private void isiNilaiDefaultWidget(Pelanggan pelanggan){
         if (pelanggan==null){
             edtKode.setText("");
@@ -201,6 +152,7 @@ public class FragmentInputPelanggan extends Fragment {
             edtEmail.setText(pelanggan.getmEmail());
         }
     }
+
     private void tambahkanListenerKeWidget(){
         btnDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +179,7 @@ public class FragmentInputPelanggan extends Fragment {
             }
         });
     }
+
     private void prosesSimpan(){
         //Todo: sesuaikan dengan pojo
         boolean status;
@@ -266,15 +219,18 @@ public class FragmentInputPelanggan extends Fragment {
     private String satukanNomorDaerahDanTelepon(){
         return edtNomorDaerahTelpon.getText().toString()+"-"+edtNomorTelpon.getText().toString();
     }
+
     private String[] pisahkanNomorTelepon(String telpon){
         return telpon.split("-");
     }
+
     private void persiapkanUntukDateTimePicker(){
         //Pertama kali dibuat calendar akan menunjuk pada tanggal hari ini
         Date date=new Date();
         calendar= Calendar.getInstance();
         calendar.setTime(date);
     }
+
     private void tampilkanToast(String pesan){
         Toast.makeText(getActivity(),pesan,Toast.LENGTH_SHORT).show();
     }

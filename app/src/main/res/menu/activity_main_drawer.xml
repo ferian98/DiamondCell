@@ -5,13 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:icon="@android:drawable/ic_dialog_dialer"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_data_master"
+            android:id="@+id/menuDataMasterFragment"
             android:icon="@android:drawable/ic_menu_save"
-            android:title="@string/menu_data_master"/>
+            android:title="@string/menu_data_master" />
         <item
             android:id="@+id/nav_pembelian"
             android:icon="@android:drawable/ic_menu_agenda"
@@ -20,6 +16,10 @@
             android:id="@+id/nav_penjualan"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_penjualan" />
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_transaksi_lain"
             android:icon="@drawable/ic_hotel_supplier"

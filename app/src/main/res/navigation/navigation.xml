@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.example.android.diamondcell.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.example.android.diamondcell.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+
+    <fragment
+        android:id="@+id/menuDataMasterFragment"
+        android:name="com.example.android.diamondcell.MenuDataMasterFragment"
+        android:label="Data Master"
+        tools:layout="@layout/menu_data_master" >
+        <action
+            android:id="@+id/action_menuDataMasterFragment_to_fragmentMasterPelanggan"
+            app:destination="@id/fragmentMasterPelanggan"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_menuDataMasterFragment_to_fragmentMasterSales"
+            app:destination="@id/fragmentMasterSales"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_menuDataMasterFragment_to_fragmentMasterSupplier"
+            app:destination="@id/fragmentMasterSupplier"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentMasterPelanggan"
+        android:name="com.example.android.diamondcell.FragmentMasterPelanggan"
+        android:label="Pelanggan"
+        tools:layout="@layout/fragment_master_pelanggan" >
+        <action
+            android:id="@+id/action_fragmentMasterPelanggan_to_fragmentDetailPelanggan"
+            app:destination="@id/fragmentDetailPelanggan"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMasterPelanggan_to_fragmentInputPelanggan"
+            app:destination="@id/fragmentInputPelanggan"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentMasterSales"
+        android:name="com.example.android.diamondcell.FragmentMasterSales"
+        android:label="Sales"
+        tools:layout="@layout/fragment_master_sales" >
+        <action
+            android:id="@+id/action_fragmentMasterSales_to_fragmentDetailSales"
+            app:destination="@id/fragmentDetailSales"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMasterSales_to_fragmentInputSales"
+            app:destination="@id/fragmentInputSales"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentMasterSupplier"
+        android:name="com.example.android.diamondcell.FragmentMasterSupplier"
+        android:label="Supplier"
+        tools:layout="@layout/fragment_master_supplier">
+        <action
+            android:id="@+id/action_fragmentMasterSupplier_to_fragmentDetailSupplier"
+            app:destination="@id/fragmentDetailSupplier"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_fragmentMasterSupplier_to_fragmentInputSuplier"
+            app:destination="@id/fragmentInputSuplier"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fragmentDetailPelanggan"
+        android:name="com.example.android.diamondcell.FragmentDetailPelanggan"
+        android:label="Detail Pelanggan"
+        tools:layout="@layout/fragment_detail_pelanggan" />
+    <fragment
+        android:id="@+id/fragmentInputPelanggan"
+        android:name="com.example.android.diamondcell.FragmentInputPelanggan"
+        android:label="Input Pelanggan"
+        tools:layout="@layout/fragment_input_pelanggan" />
+
+    <fragment
+        android:id="@+id/fragmentInputSales"
+        android:name="com.example.android.diamondcell.FragmentInputSales"
+        android:label="fragmen_input_sales"
+        tools:layout="@layout/fragmen_input_sales" />
+
+    <fragment
+        android:id="@+id/fragmentDetailSales"
+        android:name="com.example.android.diamondcell.FragmentDetailSales"
+        android:label="fragment_detail_sales"
+        tools:layout="@layout/fragment_detail_sales" />
+
+    <fragment
+        android:id="@+id/fragment_kategori_input"
+        android:name="com.example.android.diamondcell.fragment_kategori_input"
+        android:label="Input Kategori"
+        tools:layout="@layout/fragment_fragment_kategori_input" />
+
+    <fragment
+        android:id="@+id/fragmentDetailSupplier"
+        android:name="com.example.android.diamondcell.FragmentDetailSupplier"
+        android:label="fragment_detail_supplier"
+        tools:layout="@layout/fragment_detail_supplier" />
+
+    <fragment
+        android:id="@+id/fragmentInputSuplier"
+        android:name="com.example.android.diamondcell.FragmentInputSuplier"
+        android:label="fragment_input_suplier"
+        tools:layout="@layout/fragment_input_suplier" />
+
+</navigation>

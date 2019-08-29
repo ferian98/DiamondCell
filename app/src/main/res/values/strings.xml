@@ -11,7 +11,7 @@
 
     <!-- String untuk navigation drawer -->
     <string name="menu_home">Home</string>
-    <string name="menu_data_master">Pembelian</string>
+    <string name="menu_data_master">Data Master</string>
     <string name="menu_pembelian">Pembelian</string>
     <string name="menu_penjualan">Penjualan</string>
     <string name="menu_transaksi_lain">Transaksi Lain</string>
