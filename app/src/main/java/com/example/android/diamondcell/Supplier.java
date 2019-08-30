@@ -3,6 +3,12 @@ package com.example.android.diamondcell;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class Supplier implements Parcelable {
     private String mKode;
     private String mNama;
@@ -12,8 +18,16 @@ public class Supplier implements Parcelable {
     private String mEmail;
     private String mKontak;
     private boolean mStatus = false;
-
+    private ArrayList<KeyValuePair> mPasanganKolomNilai;
+    private static final String NAMATABEL="tbsuplier";
+    private DatabaseClass<Supplier> mDatabase;
     public Supplier() {
+    }
+
+    public Supplier(String mKode) {
+        this.mKode = mKode;
+        //Todo: Dapatkan suplier berdasarkan kode
+        buatParameterTabelPelanggan();
     }
 
     public Supplier (String kode, String nama, String alamat, String telp, String hp, String email, String kontak, boolean status) {
@@ -25,6 +39,7 @@ public class Supplier implements Parcelable {
         setEmail(email);
         setKontak(kontak);
         setStatus(status);
+        buatParameterTabelPelanggan();
     }
 
     protected Supplier(Parcel in) {
@@ -36,6 +51,7 @@ public class Supplier implements Parcelable {
         mEmail = in.readString();
         mKontak = in.readString();
         mStatus = in.readByte() != 0;
+        buatParameterTabelPelanggan();
     }
 
     public static final Creator<Supplier> CREATOR = new Creator<Supplier>() {
@@ -121,20 +137,73 @@ public class Supplier implements Parcelable {
             return "Tidak Aktif";
         }else return "Unkown";
     }
-    public void save() {
+    public void save(final UpdateOnUIThreadWrite<Supplier> metodeAfterSave) {
         //TODO:Implement method
+        mDatabase.save(NAMATABEL, mPasanganKolomNilai, new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeAfterSave.updateOnUIThread(getInstance());
+            }
+        });
     }
 
-    public void update() {
+    public void update(final UpdateOnUIThreadWrite<Supplier> metodeAfterUpdate) {
         //TODO:Implement method and add parameter
+        mDatabase.update(NAMATABEL,mPasanganKolomNilai, mPasanganKolomNilai.get(0).getmName() + "="
+                + mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeAfterUpdate.updateOnUIThread(getInstance());
+            }
+        });
     }
 
-    public void delete() {
+    public void delete(final UpdateOnUIThreadWrite<Supplier> metodeAfterDelete) {
         //TODO:Implement method and add parameter
+        mDatabase.delete(NAMATABEL,mPasanganKolomNilai.get(0).getmName() + "="
+                + mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeAfterDelete.updateOnUIThread(getInstance());
+            }
+        });
     }
 
-    public void fetch() {
-        //TODO:Implement method and add parameter
+    public static void fetch(final UpdateOnUIThreadRead<Supplier> metodeAfterFetch) {
+        final DatabaseClass<Supplier> pelangganDatabaseClass= new DatabaseClass<>();
+        pelangganDatabaseClass.fetchAll(NAMATABEL, new DatabaseClass.AfterGetResponseListenerRead<Supplier>() {
+            @Override
+            public ArrayList<Supplier> afterGetResponse(String responseJSON) {
+                //Todo: parsing JSON
+                try {
+                    ArrayList<Supplier> result= new ArrayList<>();
+                    JSONArray jsonArray= new JSONArray(responseJSON);
+                    for (int i=0;i<jsonArray.length();i++) {
+                        JSONObject jsonSuplier=jsonArray.getJSONObject(i);
+                        Supplier supplier=new Supplier(
+                                jsonSuplier.getString("kode"),
+                                jsonSuplier.getString("nama"),
+                                jsonSuplier.getString("alamat"),
+                                jsonSuplier.getString("telp"),
+                                jsonSuplier.getString("hp"),
+                                jsonSuplier.getString("email"),
+                                jsonSuplier.getString("kontak"),
+                                (jsonSuplier.getString("kontak").equals("Aktif"))? true:false
+                                );
+                        result.add(supplier);
+                    }
+                    return result;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            public void updateUIThread(ArrayList<Supplier> response) {
+                metodeAfterFetch.updateOnUIThread(response);
+            }
+        });
     }
 
     @Override
@@ -153,5 +222,22 @@ public class Supplier implements Parcelable {
         parcel.writeString(mEmail);
         parcel.writeString(mKontak);
         parcel.writeByte((byte) (mStatus ? 1 : 0));
+    }
+
+    private void buatParameterTabelPelanggan(){
+        mPasanganKolomNilai= new ArrayList<>();
+        mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
+        mPasanganKolomNilai.add(new KeyValuePair("nama",mNama));
+        mPasanganKolomNilai.add(new KeyValuePair("alamat",mAlamat));
+        mPasanganKolomNilai.add(new KeyValuePair("telp",mTelp));
+        mPasanganKolomNilai.add(new KeyValuePair("hp",mHp));;
+        mPasanganKolomNilai.add(new KeyValuePair("email",mEmail));
+        mPasanganKolomNilai.add(new KeyValuePair("status",getStatusAsString()));
+        mPasanganKolomNilai.add(new KeyValuePair("kontak",mKontak));
+        mDatabase=new DatabaseClass<>();
+
+    }
+    private Supplier getInstance(){
+        return this;
     }
 }

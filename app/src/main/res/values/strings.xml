@@ -11,7 +11,7 @@
 
     <!-- String untuk navigation drawer -->
     <string name="menu_home">Home</string>
-    <string name="menu_data_master">Pembelian</string>
+    <string name="menu_data_master">Data Master</string>
     <string name="menu_pembelian">Pembelian</string>
     <string name="menu_penjualan">Penjualan</string>
     <string name="menu_transaksi_lain">Transaksi Lain</string>
@@ -20,4 +20,23 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="spinner_status_item">
+        <item>Aktif</item>
+        <item>Tidak Aktif</item>
+    </string-array>
+    <string-array name="spinner_agama_item">
+        <item>Buddha</item>
+        <item>Hindu</item>
+        <item>Islam</item>
+        <item>Katolik</item>
+        <item>Kristen</item>
+        <item>Kong Hu Cu</item>
+        <item>Lainnya</item>
+    </string-array>
+    <string-array name="spinner_jenis_kelamin_item">
+        <item>Pria</item>
+        <item>Wanita</item>
+    </string-array>
+
 </resources>

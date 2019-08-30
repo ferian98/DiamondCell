@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,7 +23,28 @@ public class Sales implements Parcelable
     private String mEmail;
     private boolean mStatusAktif;
     private String mFoto;
+    private ArrayList<KeyValuePair> mPasanganKolomNilai;
+    private final static String NAMATABEL="tbSales";
+    private void buatParameterTabelSales(){
+        mPasanganKolomNilai= new ArrayList<>();
+        mPasanganKolomNilai.add(new KeyValuePair("kode",mKode));
+        mPasanganKolomNilai.add(new KeyValuePair("tgl_masuk",formatDateToMysqlDate(mTglMasuk)));
+        mPasanganKolomNilai.add(new KeyValuePair("nama",mNama));
+        mPasanganKolomNilai.add(new KeyValuePair("alamat",mAlamat));
+        mPasanganKolomNilai.add(new KeyValuePair("telp",mTelp));
+        mPasanganKolomNilai.add(new KeyValuePair("kode_jabatan",mKodeJabatan));
+        mPasanganKolomNilai.add(new KeyValuePair("jenis_kelamin",getmJenisKelaminAsString()));
+        mPasanganKolomNilai.add(new KeyValuePair("agama",getmAgamaAsString()));
+        mPasanganKolomNilai.add(new KeyValuePair("tgl_lahir",formatDateToMysqlDate(mTanggalLahir)));
+        mPasanganKolomNilai.add(new KeyValuePair("email",mEmail));
+        mPasanganKolomNilai.add(new KeyValuePair("status",String.valueOf(mStatusAktif)));
+        mPasanganKolomNilai.add(new KeyValuePair("foto",String.valueOf(mFoto)));
 
+    }
+    private String formatDateToMysqlDate(Date date){
+        SimpleDateFormat simpleDateFormat= new SimpleDateFormat("yyyy-MM-dd",Locale.US);
+        return simpleDateFormat.format(date);
+    }
     protected Sales(Parcel in) {
         mKode = in.readString();
         mTglMasuk= new Date(in.readLong());
@@ -66,6 +88,7 @@ public class Sales implements Parcelable
         mEmail = in.readString();
         mStatusAktif = in.readByte() != 0;
         mFoto = in.readString();
+        buatParameterTabelSales();
     }
 
     public static final Creator<Sales> CREATOR = new Creator<Sales>() {
@@ -132,6 +155,7 @@ public class Sales implements Parcelable
     }
     public Sales(String mKode){
         this.mKode=mKode;
+        buatParameterTabelSales();
         //Todo: Dapatkan data dari database berdasarkan Kode Sales
     }
     public Sales(String mKode, Date mTglMasuk, String mNama, String mAlamat, String mTelp, String mKodeJabatan,
@@ -150,8 +174,11 @@ public class Sales implements Parcelable
         this.mEmail = mEmail;
         this.mStatusAktif = mStatusAktif;
         this.mFoto = mFoto;
+        buatParameterTabelSales();
     }
-
+    private Sales getInstance(){
+        return this;
+    };
     public String getmKode() {
         return mKode;
     }
@@ -299,25 +326,64 @@ public class Sales implements Parcelable
         SimpleDateFormat dateFormat= new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault());
         return dateFormat.format(mTglMasuk);
     }
+
+
     public Jabatan getJabatan(){
         //Todo: Definisikan Proses Kueri Untuk Mendapatkan Jabatan Berdasarkan Kode Jabatan
         return new Jabatan("mKode","namaJabatan",2);
     }
 
-    public void save(){
-        //Todo: Definisikan Proses Save
+    public void save(final UpdateOnUIThreadWrite<Sales> metodeUISetelahSave){
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.save(NAMATABEL, mPasanganKolomNilai, new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                if (response){
+                    metodeUISetelahSave.updateOnUIThread(getInstance());
+                }
+            }
+        });
     }
 
-    public void update(){
-        //Todo: Definisikan Proses Update
+    public void update(final UpdateOnUIThreadWrite<Sales> metodeUISetelahUpdate){
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.update(NAMATABEL,mPasanganKolomNilai,mPasanganKolomNilai.get(0).getmName()+"="+
+                mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUISetelahUpdate.updateOnUIThread(getInstance());
+            }
+        });
+
     }
 
-    public void fetch(){
+    public static void fetch(final UpdateOnUIThreadRead<Sales> metodeUISetelahFetch){
         //Todo: Definisikan Proses Load Data
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.fetchAll(NAMATABEL, new DatabaseClass.AfterGetResponseListenerRead<Sales>() {
+            @Override
+            public ArrayList<Sales> afterGetResponse(String responseJSON) {
+                //Todo: Definisikan Proses Parsing JSON;
+                return null;
+            }
+
+            @Override
+            public void updateUIThread(ArrayList<Sales> response) {
+                metodeUISetelahFetch.updateOnUIThread(response);
+            }
+        });
     }
 
-    public void delete(){
+    public void delete(final UpdateOnUIThreadWrite<Sales> metodeUISetelahDelete){
         //Todo: Definisikan Proses Delete
+        DatabaseClass<Sales> databaseClass= new DatabaseClass<>();
+        databaseClass.delete(NAMATABEL,mPasanganKolomNilai.get(0).getmName()+"="+
+                mPasanganKolomNilai.get(0).getmValue(), new DatabaseClass.AfterGetResponseListenerWrite() {
+            @Override
+            public void updateUIThread(Boolean response) {
+                metodeUISetelahDelete.updateOnUIThread(getInstance());
+            }
+        });
     }
 
 
